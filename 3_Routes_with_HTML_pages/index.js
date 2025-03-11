@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+//this server code does 3 things
+//sends plain text as repsonse
+//sends html pages as response
+//sends json objects as response
 const user = {
   name: "Ajay",
   age: 25,
