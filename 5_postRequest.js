@@ -12,6 +12,6 @@ app.post("/submit", (req, res) => {
   res.status(200).json({ message: "Data received dude!!", data: req.body });
 });
 
-app.listen(2898, () => {
+app.listen(3000, () => {
   console.log("listen on port 2898");
 });

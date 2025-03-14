@@ -4,7 +4,7 @@ const app = express();
 const friends = [
   {
     id: 1,
-    name: "Alice Johnson",
+    name: "Ajay Reddy",
     age: 28,
     email: "alice@example.com",
     isActive: true,
