@@ -15,3 +15,5 @@ app.post("/submit", (req, res) => {
 app.listen(3000, () => {
   console.log("listen on port 2898");
 });
+
+//$ but how to send the data, 2 ways, using html or using POSTMAN
