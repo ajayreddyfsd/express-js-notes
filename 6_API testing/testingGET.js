@@ -1,10 +1,15 @@
+//$ testing using postMan
+//$ testing using postMan
+//$ testing using postMan
+//$ testing using postMan
+
 const express = require("express");
 const app = express();
 
 const friends = [
   {
     id: 1,
-    name: "Alice Johnson",
+    name: "Ajay Johnson",
     age: 28,
     email: "alice@example.com",
     isActive: true,
@@ -34,11 +39,13 @@ const friends = [
 
 app.get("/friends", (req, res) => {
   res.json(friends);
+  console.log("success");
 });
 
 app.get("/friends/:friendId", (req, res) => {
   const friendId = req.params.friendId;
   res.json(friends[friendId]);
+  console.log("success");
 });
 
 app.listen(2898, () => {
