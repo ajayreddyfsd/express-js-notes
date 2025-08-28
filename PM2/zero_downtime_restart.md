@@ -1,0 +1,3 @@
+basically restarting the server without giving downtime to the users
+
+pm2 reload <id|name>: This command provides a zero-downtime reload for your application. Unlike restart, which briefly takes your application offline, reload gracefully stops the old process only after the new one has successfully started. This is crucial for production environments where you need to apply updates without any service interruption.

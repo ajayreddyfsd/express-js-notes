@@ -1,0 +1,1 @@
+-   **`pm2 monit`**: This opens a **real-time dashboard** in your terminal, showing live data for all your processes. It's an excellent way to monitor resource usage and check the health of your application.

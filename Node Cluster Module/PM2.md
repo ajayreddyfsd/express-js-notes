@@ -30,3 +30,14 @@ PM2 can be set up in three simple steps:
     -   You will now see your back-end running on multiple cores, one process for each available core.
 
 ![alt text](image.png)
+
+
+#### 4. **Managing Live Clusters**:
+Once your application is running, you'll need commands to manage the live cluster of processes.
+
+-   **`pm2 list`**: Use this command to see a list of all your running applications and their status, including their ID, name, status (online, stopped, etc.), and CPU/memory usage. This gives you a quick overview of your entire cluster.
+-   **`pm2 stop <id|name>`**: This command stops a running process. You can use either the process ID or its name.
+-   **`pm2 restart <id|name>`**: This command will stop and then restart a specific process. It's useful for applying code changes without having to start the application from scratch.
+-   **`pm2 delete <id|name>`**: This will completely stop and remove the process from the PM2 list.
+-   **`pm2 monit`**: This opens a **real-time dashboard** in your terminal, showing live data for all your processes. It's an excellent way to monitor resource usage and check the health of your application.
+-   **`pm2 show <id|name>`**: Use this to get a detailed view of a specific process, including its log file paths, environment variables, and restart count. This is a powerful tool for debugging.
