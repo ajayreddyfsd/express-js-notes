@@ -1,4 +1,7 @@
 const fs = require("fs");
+
+//$ earlier we were using http module
+//$ now we are using https module
 const https = require("https");
 const path = require("path");
 
