@@ -58,13 +58,15 @@ function verifyCallback(accessToken, refreshToken, profile, done) {
 
 //$ we pass above 2 here, the AUTH_OPTIONS and the verifyCallback
 //! this is the code that sends "AUTH_OPTIONS" to google and does the verifyCallback once we get data from google
+//! but this needs to be triggered by one thing, one then it does this
+//! what is that? it is passport.authenticate() which will use later in the code
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 
 //@ setting the data inside the cookie
 //@ setting the data inside the cookie
 //@ setting the data inside the cookie
 //@ setting the data inside the cookie
-// Saving the user info into the cookie (like writing student roll number on paper)
+// Saving the user info into the cookie
 passport.serializeUser((user, done) => {
   // Store id + name + email in cookie
   done(null, {
@@ -78,7 +80,7 @@ passport.serializeUser((user, done) => {
 //@ retrieving the data inside the cookie
 //@ retrieving the data inside the cookie
 //@ retrieving the data inside the cookie
-// Reading user info back from the cookie (like finding student using roll number)
+// Reading user info back from the cookie
 passport.deserializeUser((userData, done) => {
   // Read all info back from cookie
   done(null, userData);
@@ -93,6 +95,7 @@ passport.deserializeUser((userData, done) => {
 const app = express();
 
 // Use helmet for security
+//! helmet needs to be the first in middleware
 app.use(helmet());
 
 //@ cookie definition - not the data inside the cookie
@@ -110,7 +113,7 @@ app.use(
   })
 );
 
-// this code fixes cookie problems
+// this code fixes some cookie problems
 // just some helper code, do not worry about the details, just put this to make passport.js happy
 app.use((req, res, next) => {
   if (req.session && !req.session.regenerate)
@@ -175,6 +178,7 @@ app.get(
 // Logout route → log user out and send them home
 app.get("/auth/logout", (req, res, next) => {
   //! since we are using passport.js, we already have logout() defined on req-object. we just need to call it
+  //! also clears cookies
   req.logout((err) => {
     if (err) return next(err);
     res.redirect("/"); // Go back to homepage
