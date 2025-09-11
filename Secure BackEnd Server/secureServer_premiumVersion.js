@@ -19,8 +19,8 @@ const PORT = 3000;
 const config = {
   CLIENT_ID: process.env.CLIENT_ID, // we get this from "google cloud console OAuth"
   CLIENT_SECRET: process.env.CLIENT_SECRET, // we get this from "google cloud console OAuth"
-  COOKIE_KEY_1: process.env.COOKIE_KEY_1, // could be anything
-  COOKIE_KEY_2: process.env.COOKIE_KEY_2, // could be anything
+  COOKIE_KEY_1: process.env.COOKIE_KEY_1, // could be anything, this is to prevent the tampering of the cookie, which we will be storing in the browser
+  COOKIE_KEY_2: process.env.COOKIE_KEY_2, // could be anything, this is to prevent the tampering of the cookie, which we will be storing in the browser
 };
 
 //! this is the info we send to google
@@ -58,7 +58,7 @@ function verifyCallback(accessToken, refreshToken, profile, done) {
 
 //$ we pass above 2 here, the AUTH_OPTIONS and the verifyCallback
 //! this is the code that sends "AUTH_OPTIONS" to google and does the verifyCallback once we get data from google
-//! but this needs to be triggered by one thing, one then it does this
+//! but this needs to be triggered by one thing, then it does this
 //! what is that? it is passport.authenticate() which will use later in the code
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 
@@ -104,7 +104,7 @@ app.use(helmet());
 //@ cookie definition - not the data inside the cookie
 //$ this is the cookie by name "session", that we are giving the browser to store
 //$ this is just the cookie definition and not the data inside it
-//$ we put the data inside the cookie using passport.serializeUser() and passport.deserializeUser()
+//$ we put the data inside the cookie using passport.serializeUser() and read it using passport.deserializeUser()
 app.use(
   cookieSession({
     name: "session", // name to identify the cookie
@@ -114,7 +114,7 @@ app.use(
 );
 
 // this code fixes some cookie problems
-// just some helper code, do not worry about the details, just put this to make passport.js happy
+//! just some helper code, do not worry about the details, just put this to make passport.js happy
 app.use((req, res, next) => {
   if (req.session && !req.session.regenerate)
     req.session.regenerate = (cb) => cb();
@@ -147,7 +147,7 @@ function checkLoggedIn(req, res, next) {
 app.get("/auth/google", passport.authenticate("google", { scope: ["email"] }));
 
 //! once route changes to "/auth/google/callback", passport starts its remaining job
-//! it runs verifyCallback, stored/serialzes user data into cookie and re-directs the user to homepage if success
+//! it runs verifyCallback, stores/serialzes user data into cookie and re-directs the user to homepage if success
 //! though there are no verifyCallback() or serialize() or ... in this code; passport.authenticate() calls them internally
 //@ detailed step by step process
 //@ 1. Browser hits /auth/google/callback with a special code from Google
@@ -166,8 +166,8 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["email"] }));
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/failure", // If login fails → go here
-    successRedirect: "/", // If login works → go home page
+    failureRedirect: "/failure", // If login fails → go to this route
+    successRedirect: "/", // If login works → go to this route
     session: true, // Keep user logged in
   }),
   (req, res) => {
@@ -178,7 +178,7 @@ app.get(
 // Logout route → log user out and send them home
 app.get("/auth/logout", (req, res, next) => {
   //! since we are using passport.js, we already have logout() defined on req-object. we just need to call it
-  //! also clears cookies
+  //! also clears cookies automatically
   req.logout((err) => {
     if (err) return next(err);
     res.redirect("/"); // Go back to homepage

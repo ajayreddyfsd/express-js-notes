@@ -24,24 +24,26 @@ if (isMainThread) {
     // Create a new worker using the same file
     const worker = new Worker(__filename);
 
-    // Listen for messages from the worker
+    //? we need this to Listen to messages from the worker
     // why do u need this, see communication is key.
     // what if the worker wants to communicate with the boss, like it did in the last line parentPort.postMessage
-    // this specific code block helps to get messages from the worker to the boss
+    // this specific code-block helps to get messages from the worker to the boss
     worker.on("message", (msg) => {
       console.log(`Received from worker ${worker.threadId}:`, msg);
     });
 
     // Listen for when the worker stops
-    // need to when worker stops, so it boss knows which worker is free
-    // we need this block so boss is aware of the worker's stop
+    // need to know when worker stops, so the boss knows which worker is free
+    // we need this block so boss is aware of the worker's stop,
+    // so he can assign him the next work
     worker.on("exit", () => {
       console.log(`Worker ${worker.threadId} exited`);
     });
   }
 } else {
   //! WORKER THREAD: these are the "helpers" that do the heavy work
-  //! WORKER's JOB: this is the job of the worker, the if-block-code was the job of the boss
+  //! WORKER's JOB: this is the job of the worker,
+  //! the if-block-code was the job of the boss and this else-block-code is the job of the worker
   console.log(`Worker ${process.pid} started, threadId: ${threadId}`);
 
   // Do some heavy calculation (takes time, but main thread is free)

@@ -38,7 +38,7 @@ function runTask(taskFn) {
 
     //! we need these ONs to listen to the messages from workers
     //! to know when they exit, i mean when they complete their assigned job
-    //! to know when they are functioning as expected
+    //! to know if they are functioning as expected
     worker.on("message", resolve);
     worker.on("error", reject);
     worker.on("exit", (code) => {
@@ -49,9 +49,9 @@ function runTask(taskFn) {
 }
 
 async function runAllTasks() {
-  const task1Promise = runTask(tasks[0]); //! we assigned task1 to worker1
-  const task2Promise = runTask(tasks[1]); //! we assigned task2 to worker2
-  const task3Promise = runTask(tasks[2]); //! we assigned task3 to worker3
+  const task1Promise = runTask(tasks[0]); //! we created worker1 and assigned task1 to worker1
+  const task2Promise = runTask(tasks[1]); //! we created worker2 and assigned task2 to worker2
+  const task3Promise = runTask(tasks[2]); //! we created worker3 and assigned task3 to worker3
 
   //! each of the above runTask() returns a promise
   //! we need to resolve all those promises,

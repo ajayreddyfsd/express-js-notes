@@ -29,6 +29,16 @@ app.get("/index", (req, res) => {
   ); // Sends an HTML page from your computer
 });
 
+// 6. ROUTE 2: /index - sends an HTML file. but using fs and path modules in node.js
+app.get("/index", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "3_Routes_with_HTML_pages",
+    "index.html"
+  );
+  res.sendFile(filePath);
+});
+
 // 7. ROUTE 3: /messages - sends another HTML file
 app.get("/messages", (req, res) => {
   res.sendFile(

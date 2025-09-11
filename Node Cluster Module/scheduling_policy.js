@@ -5,6 +5,11 @@
 //$ but when requests come, they share it among them
 //$ and if any worker is totally occupied, the other workers take care of incoming requests
 
+//? this is not multi-threading at all,
+//? just one server expands into x-no-of-servers to cater to all the requests, even if one gets too busy
+//? x is the no.of cores in your cpu
+//? like krishna expanded in RL, in Dwaraka, and in war
+
 // Load the cluster module so we can make multiple workers
 const cluster = require("cluster");
 // Load the HTTP module to create a server
